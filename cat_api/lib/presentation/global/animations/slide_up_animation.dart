@@ -41,11 +41,15 @@ class _SlideUpAnimationState extends State<SlideUpAnimation>
     if (widget.controller is Function) {
       widget.controller!(controller!);
     }
+    Future.delayed(const Duration(milliseconds: 200), () {
+        if (!disposed) {
+          controller?.forward();
+        }
+      });
   }
 
   @override
   Widget build(BuildContext context) {
-    controller?.forward();
 
     return AnimatedBuilder(
         animation: controller!,

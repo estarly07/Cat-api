@@ -17,18 +17,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool showTitle = true;
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
      print("object");
     context.read<BreedBloc>().add(GetBreedsEvent());
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        bool isTop = _controller.position.pixels == 0;
+        if (!isTop) {
+          context.read<BreedBloc>().add(GetMoreBreedsEvent());
+        }
+      }
+    });
     super.initState();
-  }
-  @override
-  void didChangeDependencies() {
- /*    print("object");
-    context.read<BreedBloc>().add(GetBreedsEvent()); */
-    super.didChangeDependencies();
   }
   
   @override
@@ -37,75 +40,98 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: BlocBuilder<BreedBloc, BreedState>(
         builder: (context, state) {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                top: size.height * 0.05),
-            itemCount: state is LoadedBreedState? 
-                          (state).breeds.length + 1 : // the one is to display the header
-                          state is LoadingBreedState? 10 : 1, 
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return Column(
-                  children: [
-                    HeaderHomeScreenProvider(
-                        listenerSearch: (breed) { 
-                          context.read<BreedBloc>().add(FilterBreedEvent(breed));
-                          showTitle = breed.isEmpty;
-                        },
-                        onImageProfile: () {},
-                        onMenu: () {},
-                        searchEnabled: state is LoadedBreedState,
-                        size: size,
-                        showTitle: showTitle,
-                        child: const HeaderHome()),
-                    
-                    state is LoadedBreedState && state.breeds.isEmpty? 
-                      FadeInAnimation(
-                        duration: const Duration(milliseconds: 300),
-                        child: Lottie.asset("assets/animations/anim_empty.json"),
-                      ): const SizedBox(),
-                      
-                    state is ErrorBreedState? 
-                      FadeInAnimation(
-                        duration: const Duration(milliseconds: 300),
-                        child: CustomError(lottieAnimation: "assets/animations/anim_error.json",onRefresh: (){
-                          context.read<BreedBloc>().add(GetBreedsEvent());
-                        },),
-                      ): const SizedBox(),
-                    state is NoConnectionInternetState? 
-                      FadeInAnimation(
-                        duration: const Duration(milliseconds: 300),
-                        child: CustomError(lottieAnimation: "assets/animations/anim_no_connection.json",onRefresh: (){
-                          context.read<BreedBloc>().add(GetBreedsEvent());
-                        },),
-                      ): const SizedBox()
-                  ],
-                );
-              } else {
-                return BreedItemProvider(
-                  size : size,
-                  wait : state is LoadingBreedState,
-                  breed: state is LoadedBreedState? state.breeds[index-1] : null ,
-                  onTapLongPress : (breed){
-                    showDialog(context: context, builder: (_) => DialogBreed(
-                      size: size,image:breed.referenceImageId,tagHero: breed.id,
-                    ));
-                  },
-                  onTap:  (breed){ },
-                  child: FadeInAnimation(
-                    duration: Duration(milliseconds: 500),
-                    delay: Duration(milliseconds: 100 +index),
-                    child: const BreedItemHome()),
-                );
-              }
-            },
+          return Stack(
+            children: [
+              ListView.builder(
+                controller: _controller,
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.only(
+                    left: size.width * 0.05,
+                    right: size.width * 0.05,
+                    top: size.height * 0.05),
+                itemCount: state is LoadedBreedState? 
+                              (state).breeds.length + 1 : // the one is to display the header
+                              state is LoadingBreedState? 10 : 1, 
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        HeaderHomeScreenProvider(
+                            listenerSearch: (breed) { 
+                              context.read<BreedBloc>().add(FilterBreedEvent(breed));
+                              showTitle = breed.isEmpty;
+                            },
+                            onImageProfile: () {},
+                            onMenu: () {},
+                            searchEnabled: state is LoadedBreedState,
+                            size: size,
+                            showTitle: showTitle,
+                            child: const HeaderHome()),
+                        
+                        state is LoadedBreedState && state.breeds.isEmpty? 
+                          FadeInAnimation(
+                            duration: const Duration(milliseconds: 300),
+                            child: Lottie.asset("assets/animations/anim_empty.json"),
+                          ): const SizedBox(),
+                          
+                        state is ErrorBreedState? 
+                          FadeInAnimation(
+                            duration: const Duration(milliseconds: 300),
+                            child: CustomError(lottieAnimation: "assets/animations/anim_error.json",onRefresh: (){
+                              context.read<BreedBloc>().add(GetBreedsEvent());
+                            },),
+                          ): const SizedBox(),
+                        state is NoConnectionInternetState? 
+                          FadeInAnimation(
+                            duration: const Duration(milliseconds: 300),
+                            child: CustomError(lottieAnimation: "assets/animations/anim_no_connection.json",onRefresh: (){
+                              context.read<BreedBloc>().add(GetBreedsEvent());
+                            },),
+                          ): const SizedBox()
+                      ],
+                    );
+                  } else {
+                    return BreedItemProvider(
+                      size : size,
+                      wait : state is LoadingBreedState,
+                      breed: state is LoadedBreedState? state.breeds[index-1] : null ,
+                      onTapLongPress : (breed){
+                        showDialog(context: context, builder: (_) => DialogBreed(
+                          size: size,image:breed.referenceImageId,tagHero: breed.id,
+                        ));
+                      },
+                      onTap:  (breed){ },
+                      child: FadeInAnimation(
+                        duration: Duration(milliseconds: 500),
+                        delay: Duration(milliseconds: 100 +index),
+                        child: const BreedItemHome()),
+                    );
+                  }
+                },
+              ),
+              state is LoadedBreedState && state.loadingMoreBreads?
+                       const _ProgresPagination(): const SizedBox()
+            ],
           );
         },
       ),
     );
+  }
+}
+
+class _ProgresPagination extends StatelessWidget {
+  const _ProgresPagination({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Align(
+     alignment: Alignment.bottomCenter,
+     child: Container(
+      margin: const EdgeInsets.only(bottom: 8.0),
+      child: const CircularProgressIndicator(),
+     ));
   }
 }
 

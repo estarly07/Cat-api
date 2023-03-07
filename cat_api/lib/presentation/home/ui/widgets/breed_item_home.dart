@@ -109,7 +109,7 @@ class _Image extends StatelessWidget {
             tag: BreedItemProvider.of(context).breed!.id,
             child: FadeInImage(
               placeholder: const AssetImage("assets/images/no_image.jpg"),
-              image: NetworkImage("https://cdn2.thecatapi.com/images/$image.jpg"),
+              image: NetworkImage("$image"),
               imageErrorBuilder: (context, url, error) => Image.asset("assets/images/no_image.jpg"),
               fit: BoxFit.cover,
                   height: size.height * 0.3,

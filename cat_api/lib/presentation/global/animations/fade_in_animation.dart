@@ -32,11 +32,15 @@ class _FadeInAnimationState extends State<FadeInAnimation> with SingleTickerProv
     super.initState();
     controller = AnimationController(duration: widget.duration, vsync: this);
     animation = CurvedAnimation(curve: Curves.easeOut, parent: controller!);
+    Future.delayed(const Duration(milliseconds: 200), () {
+      if (!disposed) {
+        controller?.forward();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    controller?.forward();
     return AnimatedBuilder(
         animation: animation,
         builder: (BuildContext context, Widget? child) {

@@ -9,9 +9,9 @@ class BreedRepositoryImpl implements BreedRepository {
   BreedRepositoryImpl(this._breedService);
 
   @override
-  Future<BaseResultRepository> getBreeds() async {
+  Future<BaseResultRepository> getBreeds(int page) async {
     try {
-      final response = await _breedService.getBreeds();
+      final response = await _breedService.getBreeds(page);
       if(response==null || response.data ==null){
         return BaseResultRepository.nullOrEmptyData();
       }else{
@@ -24,6 +24,21 @@ class BreedRepositoryImpl implements BreedRepository {
             (e) => e.parse()
           ).toList()
         );
+      }
+    } on Exception catch (e) {
+      return BaseResultRepository.errorApi(e);
+    }
+  }
+
+  @override
+  Future<BaseResultRepository> getImageByReference(String referenceImageId) async{
+    try {
+      final response = await _breedService.getImageByReference(referenceImageId);
+      if(response==null || response.data ==null){
+        return BaseResultRepository.nullOrEmptyData();
+      }else{
+        final data = (response.data as Map<String, dynamic>);
+        return BaseResultRepository.success(data["url"]);
       }
     } on Exception catch (e) {
       return BaseResultRepository.errorApi(e);
