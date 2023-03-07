@@ -58,11 +58,13 @@ class _TopHeader extends StatelessWidget {
             onTap: () => HeaderHomeScreenProvider.of(context).onMenu(),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: const FadeInImage(
+              child: FadeInImage(
                 width: 50,
                 height: 50,
                 placeholder: AssetImage("assets/images/no_image.jpg"), 
                 fit: BoxFit.cover,
+                imageErrorBuilder: (context, url, error) => 
+                  Image.asset("assets/images/no_image.jpg",  width: 50,height: 50,),
                 image: NetworkImage("https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80")
               ),
             )),

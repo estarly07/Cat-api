@@ -30,6 +30,7 @@ class BreedBloc extends Bloc<BreedEvent, BreedState> {
             emit(const LoadedBreedState( <String>[]));
           break;
         case NoConnectionInternet:
+            emit(NoConnectionInternetState());
           break;
         case ErrorResponse:
           emit(ErrorBreedState());

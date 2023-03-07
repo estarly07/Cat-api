@@ -7,6 +7,7 @@ abstract class BreedState {
   factory BreedState.initial() => BreedInitial();
   factory BreedState.loadingBreedState() => LoadingBreedState();
   factory BreedState.errorBreedState()   => ErrorBreedState();
+  factory BreedState.noConnectionInternet()   => NoConnectionInternetState();
   factory BreedState.loadedBreedState(List breeds)  => LoadedBreedState(breeds);
 }
 
@@ -17,3 +18,4 @@ class LoadedBreedState  extends BreedState {
   const LoadedBreedState(this.breeds);
 }
 class ErrorBreedState   extends BreedState {}
+class NoConnectionInternetState   extends BreedState {}

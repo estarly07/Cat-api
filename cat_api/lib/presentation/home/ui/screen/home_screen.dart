@@ -1,10 +1,12 @@
 import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/dialogs/breed_dialog.dart';
+import 'package:cat_api/presentation/global/global_widgets/custom_error.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
 import 'package:cat_api/presentation/home/blocs/breed/breed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cat_api/presentation/home/ui/widgets/home_widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -63,17 +65,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     state is LoadedBreedState && state.breeds.isEmpty? 
                       FadeInAnimation(
                         duration: const Duration(milliseconds: 300),
-                        child: Image.asset(
-                          "assets/images/no_image.jpg"
-                        ),
+                        child: Lottie.asset("assets/animations/anim_empty.json"),
                       ): const SizedBox(),
                       
                     state is ErrorBreedState? 
                       FadeInAnimation(
                         duration: const Duration(milliseconds: 300),
-                        child: Image.asset(
-                          "assets/images/no_image.jpg"
-                        ),
+                        child: CustomError(lottieAnimation: "assets/animations/anim_error.json",onRefresh: (){
+                          context.read<BreedBloc>().add(GetBreedsEvent());
+                        },),
+                      ): const SizedBox(),
+                    state is NoConnectionInternetState? 
+                      FadeInAnimation(
+                        duration: const Duration(milliseconds: 300),
+                        child: CustomError(lottieAnimation: "assets/animations/anim_no_connection.json",onRefresh: (){
+                          context.read<BreedBloc>().add(GetBreedsEvent());
+                        },),
                       ): const SizedBox()
                   ],
                 );
