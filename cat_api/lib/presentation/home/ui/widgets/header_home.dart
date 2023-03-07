@@ -10,9 +10,9 @@ class HeaderHome extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: HomeScreenProvider.of(context).size.height * 0.02,),
+        SizedBox(height: HeaderHomeScreenProvider.of(context).size.height * 0.02,),
         const _TopHeader(),
-        SizedBox(height: HomeScreenProvider.of(context).size.height * 0.07,),
+        SizedBox(height: HeaderHomeScreenProvider.of(context).size.height * 0.07,),
         const CustomText(
           textSize: 40,
           textAlign: TextAlign.left,
@@ -21,9 +21,9 @@ class HeaderHome extends StatelessWidget {
           withOverflow: false, 
           withBold: true
         ),
-        SizedBox(height: HomeScreenProvider.of(context).size.height * 0.03,),
+        SizedBox(height: HeaderHomeScreenProvider.of(context).size.height * 0.03,),
         const _Search(),
-        SizedBox(height: HomeScreenProvider.of(context).size.height * 0.03,),
+        SizedBox(height: HeaderHomeScreenProvider.of(context).size.height * 0.03,),
       ],
     );
   }
@@ -41,11 +41,11 @@ class _TopHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () => HomeScreenProvider.of(context).onMenu(),
+          onTap: () => HeaderHomeScreenProvider.of(context).onMenu(),
           child: SvgPicture.asset("assets/svg/ic_menu.svg"),
         ),
         InkWell(
-          onTap: () => HomeScreenProvider.of(context).onMenu(),
+          onTap: () => HeaderHomeScreenProvider.of(context).onMenu(),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: FadeInImage(
@@ -53,7 +53,7 @@ class _TopHeader extends StatelessWidget {
               height: 50,
               placeholder: AssetImage("assets/images/no_image.jpg"), 
               fit: BoxFit.cover,
-              image: NetworkImage("https://i.pinimg.com/originals/5a/20/2d/5a202d78a6df325fe1edeb245fda62f6.png")
+              image: NetworkImage("https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80")
             ),
           )),
       ],
@@ -75,7 +75,7 @@ class _SearchState extends State<_Search> {
   @override
   void initState() {
     _controller.addListener(() { 
-      HomeScreenProvider.of(context).listenerSearch(_controller.text);
+      HeaderHomeScreenProvider.of(context).listenerSearch(_controller.text);
     });
     super.initState();
   }
@@ -92,11 +92,11 @@ class _SearchState extends State<_Search> {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade400,width: 2),
         borderRadius: BorderRadius.circular(
-          HomeScreenProvider.of(context).size.height
+          HeaderHomeScreenProvider.of(context).size.height
         )
       ),
       child: TextField(
-        enabled: HomeScreenProvider.of(context).searchEnabled,
+        enabled: HeaderHomeScreenProvider.of(context).searchEnabled,
         controller   : _controller,
         keyboardType : TextInputType.text,
         textInputAction: TextInputAction.done,

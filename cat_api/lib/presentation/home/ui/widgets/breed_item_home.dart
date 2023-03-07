@@ -1,20 +1,15 @@
 import 'package:cat_api/presentation/global/global_widgets/global_widgets.dart';
-import 'package:cat_api/presentation/global/models/breed_model.dart';
+import 'package:cat_api/presentation/home/ui/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class BreedItemHome extends StatelessWidget {
-  final Size size;
-  final bool wait;
-  final BreedModel? breed;
-  const BreedItemHome({
-    Key? key,
-    required this.size, 
-    required this.wait, 
-    required this.breed
-  }) :super(key: key);
+  const BreedItemHome({ Key? key,}) :super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final size  = BreedItemProvider.of(context).size;
+    final wait  = BreedItemProvider.of(context).wait;
+    final breed = BreedItemProvider.of(context).breed;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -91,21 +86,36 @@ class _Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30),
-      child: wait ? 
-      CustomBackgroundWait(
-        widget: Container( height: size.height * 0.3,), 
-        corners: 0, 
-        margin: EdgeInsets.zero
-      )
-      :FadeInImage(
-        placeholder: const AssetImage("assets/images/no_image.jpg"),
-        image: NetworkImage("https://cdn2.thecatapi.com/images/$image.jpg"),
-        imageErrorBuilder: (context, url, error) => Image.asset("assets/images/no_image.jpg"),
-        fit: BoxFit.cover,
-            height: size.height * 0.3,
-            width: double.infinity,
+    return Container(
+        decoration: BoxDecoration(
+          boxShadow: [BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 15,
+            offset: const Offset(0, 15),
+          )]
+        ),
+      child: InkWell(
+        onLongPress: ()=>  BreedItemProvider.of(context).onTapLongPress(BreedItemProvider.of(context).breed!),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: wait ? 
+          CustomBackgroundWait(
+            widget: Container( height: size.height * 0.3,), 
+            corners: 0, 
+            margin: EdgeInsets.zero
+          )
+          :Container(
+            child: FadeInImage(
+              placeholder: const AssetImage("assets/images/no_image.jpg"),
+              image: NetworkImage("https://cdn2.thecatapi.com/images/$image.jpg"),
+              imageErrorBuilder: (context, url, error) => Image.asset("assets/images/no_image.jpg"),
+              fit: BoxFit.cover,
+                  height: size.height * 0.3,
+                  width: double.infinity,
+            ),
+          ),
+        ),
       ),
     );
   }
