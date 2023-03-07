@@ -12,8 +12,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  void didChangeDependencies() {
+  void initState() {
+     print("object");
     context.read<BreedBloc>().add(GetBreedsEvent());
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+ /*    print("object");
+    context.read<BreedBloc>().add(GetBreedsEvent()); */
     super.didChangeDependencies();
   }
   
@@ -37,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Column(
                   children: [
                     HomeScreenProvider(
-                        listenerSearch: (text) {},
+                        listenerSearch: (breed) { context.read<BreedBloc>().add(FilterBreedEvent(breed));},
                         onImageProfile: () {},
                         onMenu: () {},
                         searchEnabled: true,

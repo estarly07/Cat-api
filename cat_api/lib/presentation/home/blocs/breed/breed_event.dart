@@ -4,3 +4,7 @@ part of 'breed_bloc.dart';
 abstract class BreedEvent {}
 
 class GetBreedsEvent extends BreedEvent{}
+class FilterBreedEvent extends BreedEvent{
+  final String breed;
+  FilterBreedEvent(this.breed);
+}
