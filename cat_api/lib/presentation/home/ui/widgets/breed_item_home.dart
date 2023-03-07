@@ -105,7 +105,8 @@ class _Image extends StatelessWidget {
             corners: 0, 
             margin: EdgeInsets.zero
           )
-          :Container(
+          : Hero(
+            tag: BreedItemProvider.of(context).breed!.id,
             child: FadeInImage(
               placeholder: const AssetImage("assets/images/no_image.jpg"),
               image: NetworkImage("https://cdn2.thecatapi.com/images/$image.jpg"),

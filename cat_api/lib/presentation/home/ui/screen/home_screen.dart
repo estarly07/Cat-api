@@ -1,3 +1,4 @@
+import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/dialogs/breed_dialog.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
 import 'package:cat_api/presentation/home/blocs/breed/breed_bloc.dart';
@@ -13,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool showTitle = true;
+
   @override
   void initState() {
      print("object");
@@ -46,21 +49,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Column(
                   children: [
                     HeaderHomeScreenProvider(
-                        listenerSearch: (breed) { context.read<BreedBloc>().add(FilterBreedEvent(breed));},
+                        listenerSearch: (breed) { 
+                          context.read<BreedBloc>().add(FilterBreedEvent(breed));
+                          showTitle = breed.isEmpty;
+                        },
                         onImageProfile: () {},
                         onMenu: () {},
-                        searchEnabled: true,
+                        searchEnabled: state is LoadedBreedState,
                         size: size,
+                        showTitle: showTitle,
                         child: const HeaderHome()),
                     
                     state is LoadedBreedState && state.breeds.isEmpty? 
-                      Image.asset(
-                        "assets/images/no_image.jpg"
+                      FadeInAnimation(
+                        duration: const Duration(milliseconds: 300),
+                        child: Image.asset(
+                          "assets/images/no_image.jpg"
+                        ),
                       ): const SizedBox(),
                       
                     state is ErrorBreedState? 
-                      Image.asset(
-                        "assets/images/no_image.jpg"
+                      FadeInAnimation(
+                        duration: const Duration(milliseconds: 300),
+                        child: Image.asset(
+                          "assets/images/no_image.jpg"
+                        ),
                       ): const SizedBox()
                   ],
                 );
@@ -70,10 +83,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   wait : state is LoadingBreedState,
                   breed: state is LoadedBreedState? state.breeds[index-1] : null ,
                   onTapLongPress : (breed){
-                    showDialog(context: context, builder: (_) => DialogBreed(size: size,image:breed.referenceImageId,));
+                    showDialog(context: context, builder: (_) => DialogBreed(
+                      size: size,image:breed.referenceImageId,tagHero: breed.id,
+                    ));
                   },
                   onTap:  (breed){ },
-                  child: const BreedItemHome(),
+                  child: FadeInAnimation(
+                    duration: Duration(milliseconds: 500),
+                    delay: Duration(milliseconds: 100 +index),
+                    child: const BreedItemHome()),
                 );
               }
             },
@@ -89,6 +107,7 @@ class HeaderHomeScreenProvider extends InheritedWidget {
   final Function onMenu;
   final Function onImageProfile;
   final bool searchEnabled;
+  final bool showTitle;
   final Size size;
 
   const HeaderHomeScreenProvider(
@@ -98,6 +117,7 @@ class HeaderHomeScreenProvider extends InheritedWidget {
       required this.onMenu,
       required this.onImageProfile,
       required this.searchEnabled,
+      required this.showTitle,
       required this.size})
       : super(key: key, child: child);
 
