@@ -1,10 +1,11 @@
-import 'package:cat_api/presentation/global_widgets/global_widgets.dart';
+import 'package:cat_api/presentation/global/global_widgets/global_widgets.dart';
+import 'package:cat_api/presentation/global/models/breed_model.dart';
 import 'package:flutter/material.dart';
 
 class BreedItemHome extends StatelessWidget {
   final Size size;
   final bool wait;
-  final String? breed;
+  final BreedModel? breed;
   const BreedItemHome({
     Key? key,
     required this.size, 
@@ -18,7 +19,7 @@ class BreedItemHome extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size.height * 0.02,),
-        _Image(wait: wait, size: size),
+        _Image(wait: wait, size: size, image : breed?.referenceImageId),
         SizedBox(height: size.height * 0.02,),
         Padding(
           padding: EdgeInsets.symmetric(horizontal:size.width * 0.05),
@@ -31,9 +32,9 @@ class BreedItemHome extends StatelessWidget {
                 corners: 20, 
                 margin: EdgeInsets.zero
               )
-              : const Flexible(
+              :  Flexible(
                 child: CustomText(
-                  text: "Namessssssssssssssssssssssssssssssssssssssssss", 
+                  text: breed?.name ?? "N.N", 
                   color: Colors.black, 
                   textAlign: TextAlign.start, 
                   withBold: true,
@@ -47,10 +48,10 @@ class BreedItemHome extends StatelessWidget {
                 corners: 20, 
                 margin: EdgeInsets.zero
               )
-              : const CustomTextIcon(
+              :  CustomTextIcon(
                 image: "assets/images/ic_brain.png",
                 color: Colors.black,
-                text: "1/5",
+                text: "${breed?.intelligence ?? 1}/5",
                 textSize: 15,
               )
             ],
@@ -65,7 +66,7 @@ class BreedItemHome extends StatelessWidget {
                 margin: EdgeInsets.zero
               )
           : CustomText(
-              text: "Originssssssssssssssssssssssssssssssssssssssssss", 
+              text: breed?.origin ?? "", 
               color: Colors.grey.shade500, 
               textAlign: TextAlign.start, 
               textSize: 15
@@ -81,10 +82,12 @@ class _Image extends StatelessWidget {
     Key? key,
     required this.wait,
     required this.size,
+    required this.image,
   }) : super(key: key);
 
   final bool wait;
   final Size size;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +101,11 @@ class _Image extends StatelessWidget {
       )
       :FadeInImage(
         placeholder: const AssetImage("assets/images/no_image.jpg"),
-        image: NetworkImage("https://www.purina-arabia.com/sites/default/files/2020-12/Understanding%20Your%20Cat%27s%20Body%20LanguageTEASER.jpg"),
+        image: NetworkImage("https://cdn2.thecatapi.com/images/$image.jpg"),
+        imageErrorBuilder: (context, url, error) => Image.asset("assets/images/no_image.jpg"),
         fit: BoxFit.cover,
             height: size.height * 0.3,
+            width: double.infinity,
       ),
     );
   }

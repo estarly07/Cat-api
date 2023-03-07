@@ -1,4 +1,4 @@
-import 'package:cat_api/presentation/global_widgets/CustomText.dart';
+import 'package:cat_api/presentation/global/global_widgets/global_widgets.dart';
 import 'package:cat_api/presentation/home/ui/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

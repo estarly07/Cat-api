@@ -1,4 +1,4 @@
-import 'package:cat_api/presentation/home/blocs/bloc/breed_bloc.dart';
+import 'package:cat_api/presentation/home/blocs/breed/breed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cat_api/presentation/home/ui/widgets/home_widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

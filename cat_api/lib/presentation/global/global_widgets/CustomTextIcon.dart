@@ -1,4 +1,4 @@
-import 'package:cat_api/presentation/global_widgets/global_widgets.dart';
+import 'package:cat_api/presentation/global/global_widgets/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextIcon extends StatelessWidget {

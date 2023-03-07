@@ -13,6 +13,7 @@ class BreedBloc extends Bloc<BreedEvent, BreedState> {
       emit(LoadingBreedState());
 
       final responseBreeds = await _getBreedsUseCase.getBreedsUseCase();
+      print("USECASE => ${responseBreeds.runtimeType}");
       switch (responseBreeds.runtimeType) {
         case SuccessResponse:
             emit(LoadedBreedState((responseBreeds as SuccessResponse).data));
