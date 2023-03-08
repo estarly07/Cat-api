@@ -1,5 +1,6 @@
 import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/dialogs/breed_dialog.dart';
+import 'package:cat_api/presentation/global/global_widgets/CustomText.dart';
 import 'package:cat_api/presentation/global/global_widgets/custom_error.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
 import 'package:cat_api/presentation/global/theme_controller.dart';
@@ -19,18 +20,29 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool showTitle = true;
+  double halfScroll = 0;
+  bool showFloatingUp = false;
   final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
-     print("object");
     context.read<BreedBloc>().add(GetBreedsEvent());
     _controller.addListener(() {
-      if (_controller.position.atEdge) {
-        bool isTop = _controller.position.pixels == 0;
-        if (!isTop) {
-          context.read<BreedBloc>().add(GetMoreBreedsEvent());
-        }
+      if(halfScroll ==0){
+        halfScroll = (_controller.position.maxScrollExtent / 2);
+        print("HALF $halfScroll");
+      }
+      if (_controller.position.pixels >= _controller.position.maxScrollExtent - 250) {
+        context.read<BreedBloc>().add(GetMoreBreedsEvent());
+      }
+      if(_controller.position.pixels >= halfScroll){
+        setState(() {
+          showFloatingUp = true;
+        });
+      }else{
+        setState(() {
+          showFloatingUp = false;
+        });
       }
     });
     super.initState();
@@ -119,13 +131,57 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-              state is LoadedBreedState && state.loadingMoreBreads?
-                       const _ProgresPagination(): const SizedBox()
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Wrap(
+                  children: [
+                     showFloatingUp? _FloactingUp(size: size, onTap:(){
+                       _controller.animateTo(
+                          _controller.position.minScrollExtent,
+                          duration: const Duration(milliseconds: 1500),
+                          curve: Curves.fastOutSlowIn,
+                        );
+                     }) : const SizedBox(),
+                    state is LoadedBreedState && state.loadingMoreBreads?
+                        const _ProgresPagination(): const SizedBox(),
+                  ],
+                ),
+              )
+             
             ],
           );
         },
       ),
     );
+  }
+}
+
+class _FloactingUp extends StatelessWidget {
+  const _FloactingUp({
+    Key? key,
+    required this.size,
+    required this.onTap,
+  }) : super(key: key);
+
+  final Size size;
+  final Function onTap;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+     alignment: Alignment.bottomRight,
+     child: FadeInAnimation(
+        delay: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+         margin: EdgeInsets.only(right: size.width * 0.02,bottom: size.height * 0.02),
+         child: FloatingActionButton.extended(
+           backgroundColor: Colors.blue,
+           label: const CustomText(text: "Up", textAlign: TextAlign.center, textSize: 15,withBold: true,),
+           icon: const Icon(Icons.arrow_upward),
+           onPressed: () => onTap()),
+       ),
+     ),
+                    );
   }
 }
 
@@ -137,11 +193,12 @@ class _ProgresPagination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Align(
-     alignment: Alignment.bottomCenter,
-     child: Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
-      child: const CircularProgressIndicator(),
-     ));
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8.0),
+        child: const CircularProgressIndicator(),
+       ),
+    );
   }
 }
 
