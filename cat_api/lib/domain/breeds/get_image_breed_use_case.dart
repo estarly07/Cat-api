@@ -5,11 +5,12 @@ import 'package:cat_api/domain/validate_connection.dart';
 
 class GetImageBreedsUseCase {
   final BreedRepository _breedRepository;
-  GetImageBreedsUseCase(this._breedRepository);
+   final ConnectHelper _connectHelper;
+  GetImageBreedsUseCase(this._breedRepository, this._connectHelper);
 
   Future<BaseResultUseCase> getImageBreedsUseCase(String referenceImageId) async {
     try {
-      if(!await isConnected()){
+      if(!await  _connectHelper.isConnected()){
         return BaseResultUseCase.noInternetConnection();
       }
       final response = await _breedRepository.getImageByReference(referenceImageId);

@@ -57,15 +57,15 @@ class BreedScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: size.height * 0.02,),
-                    const SlideDownAnimation(
+                    /* const SlideDownAnimation(
                       duration:  Duration(milliseconds: 650),
-                      child:  CustomText(
-                        text: "About", 
-                        textAlign: TextAlign.start, 
+                      child:  */ Text(
+                        /* text: */ "About", 
+                        /* textAlign: TextAlign.start, 
                         textSize: 20,
-                        withBold: true,
+                        withBold: true, */
                       ),
-                    ),
+                   /*  ), */
                     SizedBox(height: size.height * 0.02,),
                     SlideDownAnimation(
                       duration: const Duration(milliseconds: 700),

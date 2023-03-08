@@ -8,11 +8,12 @@ import 'package:cat_api/presentation/global/models/breed_model.dart';
 class GetBreedsUseCase {
   final BreedRepository _breedRepository;
   final GetImageBreedsUseCase _getImageBreedsUseCase;
-  GetBreedsUseCase(this._breedRepository, this._getImageBreedsUseCase);
+  final ConnectHelper _connectHelper;
+  GetBreedsUseCase(this._breedRepository, this._getImageBreedsUseCase, this._connectHelper);
 
   Future<BaseResultUseCase> getBreedsUseCase(int page) async {
     try {
-      if(!await isConnected()){
+      if(!await _connectHelper.isConnected()){
         return BaseResultUseCase.noInternetConnection();
       }
       final response = await _breedRepository.getBreeds(page);
@@ -38,7 +39,6 @@ class GetBreedsUseCase {
           );
         case repository.NullOrEmptyData:
         default :
-          page -=1;
           return BaseResultUseCase.nullOrEmptyData();
       }
     } on Exception catch (e) {
