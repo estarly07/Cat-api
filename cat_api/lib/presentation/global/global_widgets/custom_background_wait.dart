@@ -15,7 +15,7 @@ class CustomBackgroundWait extends StatelessWidget {
     return Container(
       margin: margin,
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        color: Theme.of(context).backgroundColor,
         borderRadius: BorderRadius.circular(corners)
       ),
       child: widget,

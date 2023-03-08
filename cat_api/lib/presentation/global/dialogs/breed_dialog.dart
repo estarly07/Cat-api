@@ -18,7 +18,7 @@ class DialogBreed extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         child: Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-      
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20)),
           child: Wrap(

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class CustomTextIcon extends StatelessWidget {
   final String image;
   final String text;
-  final Color  color;
+  final Color?  color;
   final double textSize;
   const CustomTextIcon(
       {Key? key,
       required this.image,
       required this.text,
-      required this.color,
+      this.color,
       required this.textSize})
       : super(key: key);
 

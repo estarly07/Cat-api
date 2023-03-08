@@ -2,6 +2,7 @@ import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/dialogs/breed_dialog.dart';
 import 'package:cat_api/presentation/global/global_widgets/custom_error.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
+import 'package:cat_api/presentation/global/theme_controller.dart';
 import 'package:cat_api/presentation/home/blocs/breed/breed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cat_api/presentation/home/ui/widgets/home_widgets.dart';
@@ -62,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               showTitle = breed.isEmpty;
                             },
                             onImageProfile: () {},
+                            onTheme: () {
+                              context.read<ThemeController>().onChageMode();
+                            },
                             onMenu: () {},
                             searchEnabled: state is LoadedBreedState,
                             size: size,
@@ -138,6 +142,7 @@ class _ProgresPagination extends StatelessWidget {
 class HeaderHomeScreenProvider extends InheritedWidget {
   final Function(String) listenerSearch;
   final Function onMenu;
+  final Function onTheme;
   final Function onImageProfile;
   final bool searchEnabled;
   final bool showTitle;
@@ -148,6 +153,7 @@ class HeaderHomeScreenProvider extends InheritedWidget {
       required Widget child,
       required this.listenerSearch,
       required this.onMenu,
+      required this.onTheme,
       required this.onImageProfile,
       required this.searchEnabled,
       required this.showTitle,

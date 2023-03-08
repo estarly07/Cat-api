@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomText extends StatelessWidget {
 
   final String    text;
-  final Color     color;
+  final Color?     color;
   final bool      withOverflow;
   final bool      withBold;
   final TextAlign textAlign;
@@ -12,11 +12,11 @@ class CustomText extends StatelessWidget {
   const CustomText({
     Key? key, 
     required this.text, 
-    required this.color, 
     required this.textAlign,
     required this.textSize,
     this.withOverflow = true, 
     this.withBold     = false,
+    this.color, 
   }) : super(key: key);
 
   @override

@@ -30,7 +30,6 @@ class BreedItemHome extends StatelessWidget {
               :  Flexible(
                 child: CustomText(
                   text: breed?.name ?? "N.N", 
-                  color: Colors.black, 
                   textAlign: TextAlign.start, 
                   withBold: true,
                   textSize: 20
@@ -45,7 +44,6 @@ class BreedItemHome extends StatelessWidget {
               )
               :  CustomTextIcon(
                 image: "assets/images/ic_brain.png",
-                color: Colors.black,
                 text: "${breed?.intelligence ?? 1}/5",
                 textSize: 15,
               )
@@ -62,8 +60,8 @@ class BreedItemHome extends StatelessWidget {
               )
           : CustomText(
               text: breed?.origin ?? "", 
-              color: Colors.grey.shade500, 
               textAlign: TextAlign.start, 
+              color: Theme.of(context).colorScheme.secondary,
               textSize: 15
           ),
         )
@@ -89,7 +87,7 @@ class _Image extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color:  Theme.of(context).colorScheme.secondary.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 15,
             offset: const Offset(0, 15),

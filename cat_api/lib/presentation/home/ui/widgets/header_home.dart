@@ -1,8 +1,10 @@
 import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/global_widgets/global_widgets.dart';
+import 'package:cat_api/presentation/global/theme_controller.dart';
 import 'package:cat_api/presentation/home/ui/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class HeaderHome extends StatelessWidget {
   const HeaderHome({Key? key}) : super(key: key);
@@ -21,7 +23,6 @@ class HeaderHome extends StatelessWidget {
             textSize: 40,
             textAlign: TextAlign.left,
             text: "Find awesome \ncats", 
-            color: Colors.black, 
             withOverflow: false, 
             withBold: true
           ),
@@ -41,17 +42,36 @@ class _TopHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SlideDownAnimation(
-          duration: const Duration(milliseconds: 500),
-          child: InkWell(
-            onTap: () => HeaderHomeScreenProvider.of(context).onMenu(),
-            child: SvgPicture.asset("assets/svg/ic_menu.svg"),
-          ),
+        Row(
+          children: [
+            SlideDownAnimation(
+              duration: const Duration(milliseconds: 500),
+              child: InkWell(
+                onTap: () => HeaderHomeScreenProvider.of(context).onMenu(),
+                child: SvgPicture.asset("assets/svg/ic_menu.svg",color: Theme.of(context).primaryColor,),
+              ),
+            ),
+            const SizedBox(width: 10,),
+            SlideDownAnimation(
+              duration: const Duration(milliseconds: 500),
+              child: InkWell(
+                onTap: () => HeaderHomeScreenProvider.of(context).onTheme(),
+                child: Image.asset(
+                   context.read<ThemeController>().darkMode?  
+                      "assets/images/ic_sun.png":
+                      "assets/images/ic_moon.png",
+                   height: 25,
+                ),
+              ),
+            ),
+          ],
         ),
+        
         SlideDownAnimation(
           duration: const Duration(milliseconds: 500),
           child: InkWell(
@@ -117,11 +137,11 @@ class _SearchState extends State<_Search> {
           textInputAction: TextInputAction.done,
           autofocus    : false,
           maxLines     : 1,
-          decoration : InputDecoration(
+          decoration :  InputDecoration(
             hintText   : "Search cat...",
             border     : InputBorder.none,
-            prefixIcon : Icon(Icons.search,color: Colors.grey.shade400,),
-            labelStyle : TextStyle(color: Colors.grey.shade400,  fontSize: 15),
+            prefixIcon : Icon(Icons.search,color: Theme.of(context).colorScheme.secondary,),
+            labelStyle : TextStyle(color:  Theme.of(context).colorScheme.secondary,  fontSize: 15),
         )),
       ),
     );
