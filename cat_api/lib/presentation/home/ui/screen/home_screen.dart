@@ -4,6 +4,7 @@ import 'package:cat_api/presentation/global/global_widgets/custom_error.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
 import 'package:cat_api/presentation/global/theme_controller.dart';
 import 'package:cat_api/presentation/home/blocs/breed/breed_bloc.dart';
+import 'package:cat_api/presentation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:cat_api/presentation/home/ui/widgets/home_widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,7 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           size: size,image:breed.referenceImageId,tagHero: breed.id,
                         ));
                       },
-                      onTap:  (breed){ },
+                      onTap:  (breed){ 
+                        Screens.navigationTo(
+                          context  : context, 
+                          page     : Screens.breed, 
+                          arguments: breed);
+                      },
                       child: FadeInAnimation(
                         duration: Duration(milliseconds: 500),
                         delay: Duration(milliseconds: 100 +index),

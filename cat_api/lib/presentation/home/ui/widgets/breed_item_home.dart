@@ -95,6 +95,7 @@ class _Image extends StatelessWidget {
         ),
       child: InkWell(
         onLongPress: ()=>  BreedItemProvider.of(context).onTapLongPress(BreedItemProvider.of(context).breed!),
+        onTap: () => BreedItemProvider.of(context).onTap(BreedItemProvider.of(context).breed!),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: wait ? 
