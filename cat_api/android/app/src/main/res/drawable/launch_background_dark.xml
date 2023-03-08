@@ -13,5 +13,5 @@
     <item android:gravity="bottom|center"
         android:top="40dp"
         android:bottom="20dp"
-        android:drawable="@drawable/name_logo"/>
+        android:drawable="@drawable/name_logo_dark"/>
 </layer-list>
