@@ -1,5 +1,6 @@
 import 'package:cat_api/presentation/global/animations/animations.dart';
 import 'package:cat_api/presentation/global/dialogs/breed_dialog.dart';
+import 'package:cat_api/presentation/global/dialogs/dialog_alert.dart';
 import 'package:cat_api/presentation/global/global_widgets/CustomText.dart';
 import 'package:cat_api/presentation/global/global_widgets/custom_error.dart';
 import 'package:cat_api/presentation/global/models/breed_model.dart';
@@ -78,6 +79,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             onImageProfile: () {},
                             onTheme: () {
                               context.read<ThemeController>().onChageMode();
+                              Future.delayed(Duration(seconds: 2),(){
+                                showAlertDialogYesOrCancel(
+                                  context, 
+                                  "Alert", 
+                                  "Do you want to change app logo too?", 
+                                  size,
+                                  [
+                                    {"name":"yes","onPressed": (){ context.read<ThemeController>().onChageIcon();}},
+                                    {"name":"cancel","onPressed": (){ Navigator.pop(context); }},
+                                  ]
+                                );
+                              });
+                             
                             },
                             onMenu: () {},
                             searchEnabled: state is LoadedBreedState,
@@ -181,7 +195,7 @@ class _FloactingUp extends StatelessWidget {
            onPressed: () => onTap()),
        ),
      ),
-                    );
+    );
   }
 }
 

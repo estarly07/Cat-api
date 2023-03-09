@@ -15,7 +15,7 @@ void main() async{
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create:  (_) => ThemeController())
+        ChangeNotifierProvider(create:  (_) => ThemeController(di.getIt()))
       ],
       child: const MyApp()));
 }
