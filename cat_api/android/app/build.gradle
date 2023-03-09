@@ -57,11 +57,12 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.cat_api"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId "com.pragma.cat_api"
+        minSdkVersion 20
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
     }
 
     buildTypes {

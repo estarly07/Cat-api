@@ -1,4 +1,4 @@
-package com.example.cat_api
+package com.pragma.cat_api
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
