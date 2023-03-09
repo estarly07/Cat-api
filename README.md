@@ -12,6 +12,8 @@
   - animaciones
   - flavors (ambientes qa/desarrollo y produccion)
   - Sharedpreferences
+  - Unit test 
+  - widget test
   
 <p align="start"> 
   <img  src="https://user-images.githubusercontent.com/77941162/223755389-5c08bf28-fa19-43c9-bd19-b99e459139ec.jpg" width="200" height="400"  title="hover text"> 
