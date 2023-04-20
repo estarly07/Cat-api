@@ -86,7 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Do you want to change app logo too?", 
                                   size,
                                   [
-                                    {"name":"yes","onPressed": (){ context.read<ThemeController>().onChageIcon();}},
+                                    {"name":"yes","onPressed": (){ 
+                                      context.read<ThemeController>().onChageIcon();
+                                      Navigator.pop(context); 
+                                    }},
                                     {"name":"cancel","onPressed": (){ Navigator.pop(context); }},
                                   ]
                                 );

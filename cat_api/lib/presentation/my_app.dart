@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<BreedBloc>(),),
       ],
       child:  MaterialApp(
-          title: 'Material App',
           routes: routes(),
           theme: getTheme(themeController.darkMode),
           initialRoute: Screens.home,

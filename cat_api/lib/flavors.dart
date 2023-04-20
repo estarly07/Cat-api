@@ -18,9 +18,9 @@ extension FlavorsExtension on Flavors {
   String get xApiKey{
     switch(this){
       case Flavors.production:
-        return xApiKeyProduction;
+        return "https://api.thecatapi.com/v1/";
       case Flavors.qa:
-        return xApiKeyQa;
+        return "https://api.thecatapi.com/v1/";
     }
   }
   
